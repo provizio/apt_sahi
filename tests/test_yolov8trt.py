@@ -1,9 +1,9 @@
 
 import unittest
-
-import cv2
+import os
 import numpy as np
 
+from sahi.utils.cv import read_image
 from sahi.utils.yolov8trt import Yolov8TRTTestConstants, download_yolov8_trt_model
 
 MODEL_DEVICE = "cuda:0"
@@ -72,7 +72,7 @@ class TestYolov8OnnxDetectionModel(unittest.TestCase):
 
         # Prepare image
         image_path = "tests/data/small-vehicles1.jpeg"
-        image = cv2.imread(image_path)
+        image = read_image(image_path)
 
         # Perform inference
         yolov8_trt_detection_model.perform_inference(image)
