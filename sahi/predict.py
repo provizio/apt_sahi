@@ -253,6 +253,8 @@ def get_sliced_prediction(
                 slice_image_result.original_image_width,
             ],
         )
+        logger.info(f"Per slice prediction time: {(time.perf_counter() - gsp_start)*1000:2f}")
+
         # convert sliced predictions to full predictions
         for object_prediction in prediction_result.object_prediction_list:
             if object_prediction:  # if not empty
@@ -291,8 +293,6 @@ def get_sliced_prediction(
             durations_in_seconds["prediction"],
             "seconds.",
         )
-
-    logger.info(f"Full gsp {(time.perf_counter() - gsp_start)*1000:2f}")
 
     return PredictionResult(
         image=image, object_prediction_list=object_prediction_list, durations_in_seconds=durations_in_seconds
