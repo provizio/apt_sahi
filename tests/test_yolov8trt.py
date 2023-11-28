@@ -1,7 +1,11 @@
-
 import unittest
 import os
 import numpy as np
+import logging
+import tensorrt as trt
+
+logger = logging.getLogger(__name__)
+TRT_LOGGER = trt.Logger()
 
 from sahi.utils.cv import read_image
 from sahi.utils.yolov8trt import Yolov8TRTTestConstants, download_yolov8_trt_model
@@ -12,11 +16,21 @@ IOU_THRESHOLD = 0.7
 IMAGE_SIZE = 640
 
 
-class TestYolov8OnnxDetectionModel(unittest.TestCase):
+class TestYolov8TRTDetectionModel(unittest.TestCase):
+    def setUp(self):
+
+        #  Initialize TRT model
+        self.runtime = trt.Runtime(TRT_LOGGER)
+        self.engine = self.load_engine(self.model_path)
+        self.context = self.engine.create_execution_context()
+        self.inputs, self.outputs, self.bindings, self.stream = self.allocate_buffers()
+
     def test_load_model(self):
         from sahi.models.yolov8trt import Yolov8TrtDetectionModel
 
         download_yolov8_trt_model()
+
+        print(Yolov8TRTTestConstants.YOLOV8N_TRT_MODEL_PATH)
 
         yolov8_trt_detection_model = Yolov8TrtDetectionModel(
             model_path=Yolov8TRTTestConstants.YOLOV8N_TRT_MODEL_PATH,
@@ -26,9 +40,6 @@ class TestYolov8OnnxDetectionModel(unittest.TestCase):
             category_mapping={"0": "something"},
             load_at_init=True,
         )
-
-        # # Test setting options for tensorrt
-        # yolov8_trt_detection_model.load_model({"enable_mem_pattern": False})
 
         self.assertNotEqual(yolov8_trt_detection_model.model, None)
 
