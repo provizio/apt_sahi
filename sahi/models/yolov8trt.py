@@ -1,5 +1,5 @@
 import logging
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, List, Optional, Tuple
 
 import cv2
 import numpy as np
@@ -30,7 +30,7 @@ class HostDeviceMem(object):
         return self.__str__()
 
 class Yolov8TrtDetectionModel(DetectionModel):
-    def __init__(self, *args, iou_threshold: float = 0.7, **kwargs):
+    def __init__(self, *args, iou_threshold: float = 0.7, model_path: str, **kwargs):
         """
         Args:
             iou_threshold: float
@@ -38,7 +38,7 @@ class Yolov8TrtDetectionModel(DetectionModel):
         """
         #  Initialize TRT model
         self.runtime = trt.Runtime(TRT_LOGGER)
-        self.engine = self.load_engine(self.model_path)
+        self.engine = self.load_engine(model_path)
         self.context = self.engine.create_execution_context()
         self.inputs, self.outputs, self.bindings, self.stream = self.allocate_buffers()
         
@@ -54,7 +54,7 @@ class Yolov8TrtDetectionModel(DetectionModel):
 
         try:
             trt.init_libnvinfer_plugins(None, "")
-            with open(self.engine, 'rb') as f:
+            with open(self.model_path, 'rb') as f:
                 engine_data = f.read()
             engine = self.runtime.deserialize_cuda_engine(engine_data)
 
