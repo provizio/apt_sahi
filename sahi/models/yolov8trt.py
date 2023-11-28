@@ -39,13 +39,9 @@ class Yolov8TrtDetectionModel(DetectionModel):
                 IOU threshold for non-max supression, defaults to 0.7.
         """
         #  Initialize TRT model
-        self.model_path = kwargs.get('model_path')
         self.runtime = trt.Runtime(TRT_LOGGER)
-        self.engine = self.load_engine(self.model_path)
-        self.context = self.engine.create_execution_context()
-        self.inputs, self.outputs, self.bindings, self.stream = self.allocate_buffers()
         
-        super().__init__(*args, **kwargs)
+        
         self.iou_threshold = iou_threshold
 
     def check_dependencies(self) -> None:
@@ -56,6 +52,9 @@ class Yolov8TrtDetectionModel(DetectionModel):
         """
 
         try:
+            self.engine = self.load_engine(self.model_path)
+            self.context = self.engine.create_execution_context()
+            self.inputs, self.outputs, self.bindings, self.stream = self.allocate_buffers()
             trt.init_libnvinfer_plugins(None, "")
             with open(self.model_path, 'rb') as f:
                 engine_data = f.read()
