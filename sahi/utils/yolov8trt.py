@@ -7,14 +7,16 @@ import numpy as np
 from sahi.utils.yolov8 import download_yolov8n_model
 
 class Yolov8TRTTestConstants:
-    YOLOV8_TRT_MODEL_PATH = "tests/data/models/yolov8/yolov8.trt"
+    YOLOV8_TRT_MODEL_PATH = "tests\data\models\yolov8\roc-cnn-s-v2.3v.trt"
 
 
 def download_yolov8_trt_model(destination_path: Optional[str] = None):
     if destination_path is None:
-        destination_path = Yolov8TRTTestConstants.YOLOV8N_TRT_MODEL_PATH
+        destination_path = Yolov8TRTTestConstants.YOLOV8_TRT_MODEL_PATH
 
-    Path(destination_path).parent.mkdir(parents=True, exist_ok=True)
+    # destination_path = Path(destination_path)
+    # model_path = destination_path.parent / (destination_path.stem + ".pt")
+    # download_yolov8n_model(model_path)
 
 def non_max_supression(boxes: np.ndarray, scores: np.ndarray, iou_threshold: float) -> np.ndarray:
     """Perform non-max supression.
