@@ -198,7 +198,6 @@ def get_sliced_prediction(
     num_batch = 1
 
     # create slices from full image
-    gsp_start = time.perf_counter()
     time_start = time.time()
     slice_image_result = slice_image(
         image=image,
@@ -228,6 +227,8 @@ def get_sliced_prediction(
         match_metric=postprocess_match_metric,
         class_agnostic=postprocess_class_agnostic,
     )
+
+    gsp_start = time.perf_counter()
 
     # create prediction input
     num_group = int(num_slices / num_batch)
