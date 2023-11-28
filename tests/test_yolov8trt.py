@@ -19,7 +19,7 @@ class TestYolov8OnnxDetectionModel(unittest.TestCase):
         download_yolov8_trt_model()
 
         yolov8_trt_detection_model = Yolov8TrtDetectionModel(
-            model_path=Yolov8TRTTestConstants.YOLOV8_TRT_MODEL_PATH,
+            model_path=Yolov8TRTTestConstants.YOLOV8N_TRT_MODEL_PATH,
             confidence_threshold=CONFIDENCE_THRESHOLD,
             iou_threshold=IOU_THRESHOLD,
             device=MODEL_DEVICE,
@@ -39,7 +39,7 @@ class TestYolov8OnnxDetectionModel(unittest.TestCase):
 
         download_yolov8_trt_model()
 
-        with open(Yolov8TRTTestConstants.YOLOV8_TRT_MODEL_PATH, 'rb') as f:
+        with open(Yolov8TRTTestConstants.YOLOV8N_TRT_MODEL_PATH, 'rb') as f:
             engine_data = f.read()
         yolo_model = self.runtime.deserialize_cuda_engine(engine_data)
 
@@ -61,7 +61,7 @@ class TestYolov8OnnxDetectionModel(unittest.TestCase):
         download_yolov8_trt_model()
 
         yolov8_trt_detection_model = Yolov8TrtDetectionModel(
-            model_path=Yolov8TRTTestConstants.YOLOV8_TRT_MODEL_PATH,
+            model_path=Yolov8TRTTestConstants.YOLOV8N_TRT_MODEL_PATH,
             confidence_threshold=CONFIDENCE_THRESHOLD,
             iou_threshold=IOU_THRESHOLD,
             device=MODEL_DEVICE,
