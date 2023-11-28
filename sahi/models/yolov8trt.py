@@ -200,7 +200,7 @@ class Yolov8TrtDetectionModel(DetectionModel):
         cuda.memcpy_htod_async(self.inputs.device, self.inputs.host, self.stream)
 
         # Inference
-        outputs = self.context.execute_async_v2(bindings=self.bindings, stream_handle=self.stream.handle)
+        self.outputs = self.context.execute_async_v2(bindings=self.bindings, stream_handle=self.stream.handle)
 
         #  Copying output tensor from CUDA Memory
         cuda.memcpy_dtoh_async(self.outputs.host, self.outputs.device, self.stream)
