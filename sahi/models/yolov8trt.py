@@ -188,16 +188,6 @@ class Yolov8TrtDetectionModel(DetectionModel):
         if self.model is None:
             raise ValueError("Model is not loaded, load it by calling .load_model()")
 
-        # Get input/output names shapes
-        # model_inputs = self.model.get_inputs()
-        # model_output = self.model.get_outputs()
-
-        # # input_names = [model_inputs[i].name for i in range(len(model_inputs))]
-        # # output_names = [model_output[i].name for i in range(len(model_output))]
-
-        # input_shape = model_inputs[0].shape[2:]  # w, h
-        # image_shape = image.shape[:2]  # h, w
-
         # Prepare image
         image_tensor = self._preprocess_image(image, self.input_shape)
 
@@ -217,7 +207,7 @@ class Yolov8TrtDetectionModel(DetectionModel):
 
         # Post-process
         results = np.reshape(self.outputs.host, self.output_shape)
-        #prediction_results = self._post_process(outputs, self.input_shape, image_shape)
+        prediction_results = self._post_process(results, self.input_shape, image_shape)
         self._original_predictions = results
 
     @property

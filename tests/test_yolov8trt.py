@@ -54,6 +54,8 @@ class TestYolov8TRTDetectionModel(unittest.TestCase):
             engine_data = f.read()
         yolo_model = self.runtime.deserialize_cuda_engine(engine_data)
 
+        print(yolo_model)
+
         yolov8_trt_detection_model = Yolov8TrtDetectionModel(
             model=yolo_model,
             confidence_threshold=CONFIDENCE_THRESHOLD,
