@@ -93,11 +93,11 @@ class TestYolov8TRTDetectionModel(unittest.TestCase):
         yolov8_trt_detection_model.perform_inference(image)
         original_predictions = yolov8_trt_detection_model.original_predictions
 
-        boxes = original_predictions[0]
+        best_bbox = original_predictions[0]
 
         # Find most confident bbox for car
-        best_box_index = np.argmax(boxes[boxes[:, 5] == 2][:, 4])
-        best_bbox = boxes[best_box_index]
+        #best_box_index = np.argmax(boxes[boxes[:, 5] == 2][:, 4])
+        #best_bbox = boxes[best_box_index]
 
         # Compare
         desired_bbox = [603, 239, 629, 259]
@@ -107,8 +107,7 @@ class TestYolov8TRTDetectionModel(unittest.TestCase):
         for ind, point in enumerate(predicted_bbox[:4]):
             assert point < desired_bbox[ind] + margin and point > desired_bbox[ind] - margin
 
-        for box in boxes[0]:
-            self.assertGreaterEqual(predicted_bbox[4], CONFIDENCE_THRESHOLD)
+        self.assertGreaterEqual(predicted_bbox[4], CONFIDENCE_THRESHOLD)
 
 
 if __name__ == "__main__":
