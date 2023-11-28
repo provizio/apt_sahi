@@ -14,6 +14,9 @@ def download_yolov8_trt_model(destination_path: Optional[str] = None):
     if destination_path is None:
         destination_path = Yolov8TRTTestConstants.YOLOV8N_TRT_MODEL_PATH
 
+    logging.debug("Yolov8TRT model path: %s", destination_path)
+    print(destination_path)
+
     # destination_path = Path(destination_path)
     # model_path = destination_path.parent / (destination_path.stem + ".pt")
     # download_yolov8n_model(model_path)

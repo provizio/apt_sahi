@@ -30,7 +30,7 @@ class TestYolov8TRTDetectionModel(unittest.TestCase):
 
         download_yolov8_trt_model()
 
-        print(Yolov8TRTTestConstants.YOLOV8N_TRT_MODEL_PATH)
+        logging.debug("Yolov8TRT model path: %s", Yolov8TRTTestConstants.YOLOV8N_TRT_MODEL_PATH)
 
         yolov8_trt_detection_model = Yolov8TrtDetectionModel(
             model_path=Yolov8TRTTestConstants.YOLOV8N_TRT_MODEL_PATH,
