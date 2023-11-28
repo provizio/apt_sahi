@@ -128,7 +128,7 @@ class Yolov8TrtDetectionModel(DetectionModel):
             image: np.ndarray
                 Input image with color channel order RGB.
         """
-        input_image = cv2.resize(image, self.input_shape)
+        input_image = cv2.resize(image, input_shape)
 
         input_image = input_image / 255.0
         input_image = input_image.transpose(2, 0, 1)
