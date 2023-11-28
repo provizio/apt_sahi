@@ -328,7 +328,9 @@ def slice_image(
         Path(output_dir).mkdir(parents=True, exist_ok=True)
 
     # read image
+    start = time.perf_counter()
     image_pil = read_image_as_pil(image)
+    logger.info(f"PIL read time: {(time.perf_counter() - start)*1000:.2f}")
     verboselog("image.shape: " + str(image_pil.size))
 
     image_width, image_height = image_pil.size
