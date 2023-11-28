@@ -2,6 +2,7 @@ import unittest
 import os
 import numpy as np
 import logging
+import cv2
 import tensorrt as trt
 
 logger = logging.getLogger(__name__)
@@ -87,17 +88,17 @@ class TestYolov8TRTDetectionModel(unittest.TestCase):
 
         # Prepare image
         image_path = "tests/data/small-vehicles1.jpeg"
-        image = read_image(image_path)
+        image = cv2.imread(image_path)
 
         # Perform inference
         yolov8_trt_detection_model.perform_inference(image)
         original_predictions = yolov8_trt_detection_model.original_predictions
 
-        best_bbox = original_predictions[0]
+        boxes = original_predictions[0]
 
         # Find most confident bbox for car
-        #best_box_index = np.argmax(boxes[boxes[:, 5] == 2][:, 4])
-        #best_bbox = boxes[best_box_index]
+        best_box_index = np.argmax(boxes[boxes[:, 5] == 2][:, 4])
+        best_bbox = boxes[best_box_index]
 
         # Compare
         desired_bbox = [603, 239, 629, 259]
@@ -107,7 +108,8 @@ class TestYolov8TRTDetectionModel(unittest.TestCase):
         for ind, point in enumerate(predicted_bbox[:4]):
             assert point < desired_bbox[ind] + margin and point > desired_bbox[ind] - margin
 
-        self.assertGreaterEqual(predicted_bbox[4], CONFIDENCE_THRESHOLD)
+        for box in boxes[0]:
+            self.assertGreaterEqual(predicted_bbox[4], CONFIDENCE_THRESHOLD)
 
 
 if __name__ == "__main__":
