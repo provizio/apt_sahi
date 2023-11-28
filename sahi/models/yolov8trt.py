@@ -41,7 +41,6 @@ class Yolov8TrtDetectionModel(DetectionModel):
         #  Initialize TRT model
         self.runtime = trt.Runtime(TRT_LOGGER)
         
-        
         self.iou_threshold = iou_threshold
 
     def check_dependencies(self) -> None:
@@ -52,14 +51,12 @@ class Yolov8TrtDetectionModel(DetectionModel):
         """
 
         try:
-            self.engine = self.model_path
-            
             trt.init_libnvinfer_plugins(None, "")
             with open(self.model_path, 'rb') as f:
                 engine_data = f.read()
             engine = self.runtime.deserialize_cuda_engine(engine_data)
 
-            self.context = self.engine.create_execution_context()
+            self.context = engine.create_execution_context()
             self.inputs, self.outputs, self.bindings, self.stream = self.allocate_buffers()
             self.set_model(engine)
 
