@@ -21,7 +21,7 @@ class TestYolov8TRTDetectionModel(unittest.TestCase):
 
         #  Initialize TRT model
         self.runtime = trt.Runtime(TRT_LOGGER)
-        # self.engine = self.load_engine(self.model_path)
+        # self.engine = self.load_model(self.model_path)
         # self.context = self.engine.create_execution_context()
         # self.inputs, self.outputs, self.bindings, self.stream = self.allocate_buffers()
 
@@ -36,7 +36,7 @@ class TestYolov8TRTDetectionModel(unittest.TestCase):
             iou_threshold=IOU_THRESHOLD,
             device=MODEL_DEVICE,
             category_mapping={"0": "something"},
-            load_at_init=True,
+            load_at_init=False,
         )
 
         self.assertNotEqual(yolov8_trt_detection_model.model, None)

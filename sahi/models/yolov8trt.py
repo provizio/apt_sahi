@@ -43,7 +43,7 @@ class Yolov8TrtDetectionModel(DetectionModel):
 
         #  Initialize TRT model
         self.runtime = trt.Runtime(TRT_LOGGER)
-        self.engine = self.load_model(self)
+        self.engine = self.load_model(self.model_path)
         self.context = self.engine.create_execution_context()
         self.inputs, self.outputs, self.bindings, self.stream = self.allocate_buffers()
         
@@ -63,6 +63,7 @@ class Yolov8TrtDetectionModel(DetectionModel):
             engine = self.runtime.deserialize_cuda_engine(engine_data)
             self.set_model(engine)
             return engine
+        
         except Exception as e:
             raise TypeError("model_path is not a valid trt model path: ", e)
 
