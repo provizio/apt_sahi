@@ -2,6 +2,8 @@ import unittest
 import os
 import numpy as np
 import logging
+from torch import Tensor
+
 import cv2
 import tensorrt as trt
 
@@ -97,7 +99,7 @@ class TestYolov8TRTDetectionModel(unittest.TestCase):
         print(original_predictions)
 
         # Ensure there are predictions
-        assert original_predictions is not None
+        assert original_predictions is type(Tensor)
 
         
 
