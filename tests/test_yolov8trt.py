@@ -61,6 +61,8 @@ class TestYolov8TRTDetectionModel(unittest.TestCase):
             device=MODEL_DEVICE,
             category_mapping={"0": "something"},
             load_at_init=True,
+            input_shape = [1, 3, 512, 416],
+            output_shape = [1, 11, 4368]
         )
 
         self.assertNotEqual(yolov8_trt_detection_model.model, None)
@@ -79,6 +81,8 @@ class TestYolov8TRTDetectionModel(unittest.TestCase):
             category_mapping={"0": "something"},
             load_at_init=True,
             image_size=IMAGE_SIZE,
+            input_shape = [1, 3, 512, 416],
+            output_shape = [1, 11, 4368]
         )
 
         # Prepare image
