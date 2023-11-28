@@ -53,13 +53,14 @@ class Yolov8TrtDetectionModel(DetectionModel):
 
         try:
             self.engine = self.model_path
-            self.context = self.engine.create_execution_context()
-            self.inputs, self.outputs, self.bindings, self.stream = self.allocate_buffers()
+            
             trt.init_libnvinfer_plugins(None, "")
             with open(self.model_path, 'rb') as f:
                 engine_data = f.read()
             engine = self.runtime.deserialize_cuda_engine(engine_data)
 
+            self.context = self.engine.create_execution_context()
+            self.inputs, self.outputs, self.bindings, self.stream = self.allocate_buffers()
             self.set_model(engine)
 
         except Exception as e:
