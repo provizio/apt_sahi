@@ -336,6 +336,8 @@ def slice_image(
     image_width, image_height = image_pil.size
     if not (image_width != 0 and image_height != 0):
         raise RuntimeError(f"invalid image size: {image_pil.size} for 'slice_image'.")
+
+    start = time.perf_counter()
     slice_bboxes = get_slice_bboxes(
         image_height=image_height,
         image_width=image_width,
@@ -345,11 +347,14 @@ def slice_image(
         overlap_height_ratio=overlap_height_ratio,
         overlap_width_ratio=overlap_width_ratio,
     )
+    logger.info(f"PIL get slice bbox: {(time.perf_counter() - start)*1000:.2f}")
 
     n_ims = 0
 
     # init images and annotations lists
+    start = time.perf_counter()
     sliced_image_result = SliceImageResult(original_image_size=[image_height, image_width], image_dir=output_dir)
+    logger.info(f"get slice image result: {(time.perf_counter() - start)*1000:.2f}")
 
     image_pil_arr = np.asarray(image_pil)
     # iterate over slices
@@ -382,6 +387,7 @@ def slice_image(
         # create coco image
         slice_width = slice_bbox[2] - slice_bbox[0]
         slice_height = slice_bbox[3] - slice_bbox[1]
+        start = time.perf_counter()
         coco_image = CocoImage(file_name=slice_file_name, height=slice_height, width=slice_width)
 
         # append coco annotations (if present) to coco image
@@ -389,11 +395,16 @@ def slice_image(
             for sliced_coco_annotation in process_coco_annotations(coco_annotation_list, slice_bbox, min_area_ratio):
                 coco_image.add_annotation(sliced_coco_annotation)
 
+        logger.info(f"COCO Imaging: {(time.perf_counter() - start)*1000:.2f}")
+
         # create sliced image and append to sliced_image_result
+        start = time.perf_counter()
+
         sliced_image = SlicedImage(
             image=image_pil_slice, coco_image=coco_image, starting_pixel=[slice_bbox[0], slice_bbox[1]]
         )
         sliced_image_result.add_sliced_image(sliced_image)
+        logger.info(f"slice result assembly: {(time.perf_counter() - start)*1000:.2f}")
 
     # export slices if output directory is provided
     if output_file_name and output_dir:
