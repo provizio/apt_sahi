@@ -89,10 +89,12 @@ class TestYolov8TRTDetectionModel(unittest.TestCase):
         # Prepare image
         image_path = "tests/data/small-vehicles1.jpeg"
         image = cv2.imread(image_path)
-
+    
         # Perform inference
         yolov8_trt_detection_model.perform_inference(image)
         original_predictions = yolov8_trt_detection_model.original_predictions
+
+        print(original_predictions)
 
         # Ensure there are predictions
         assert original_predictions is not None
