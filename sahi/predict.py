@@ -198,6 +198,7 @@ def get_sliced_prediction(
     num_batch = 1
 
     # create slices from full image
+    gsp_start = time.perf_counter()
     time_start = time.time()
     slice_image_result = slice_image(
         image=image,
@@ -289,6 +290,8 @@ def get_sliced_prediction(
             durations_in_seconds["prediction"],
             "seconds.",
         )
+
+    logger.info(f"Full gsp {(time.perf_counter() - gsp_start)*1000:2f}")
 
     return PredictionResult(
         image=image, object_prediction_list=object_prediction_list, durations_in_seconds=durations_in_seconds
