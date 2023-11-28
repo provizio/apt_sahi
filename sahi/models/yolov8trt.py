@@ -56,16 +56,13 @@ class Yolov8TrtDetectionModel(DetectionModel):
         """
 
         try:
-            trt.init_libnvinfer_plugins(None, "")
+            trt.init_libnvinfer_plugins(None, "")   
 
             with open(self.model_path, 'rb') as f:
                 engine_data = f.read()
-            self.engine = self.runtime.deserialize_cuda_engine(engine_data)
-
-            # self.context = self.engine.create_execution_context()
-            # self.inputs, self.outputs, self.bindings, self.stream = self.allocate_buffers()
-            self.set_model(self.engine)
-
+            engine = self.runtime.deserialize_cuda_engine(engine_data)
+            self.set_model(engine)
+            return engine
         except Exception as e:
             raise TypeError("model_path is not a valid trt model path: ", e)
 
