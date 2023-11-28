@@ -30,16 +30,20 @@ class HostDeviceMem(object):
         return self.__str__()
 
 class Yolov8TrtDetectionModel(DetectionModel):
-    def __init__(self, *args, iou_threshold: float = 0.7, **kwargs):
+    def __init__(self, *args, iou_threshold: float = 0.7, input_shape: [1, 3, 512, 416], output_shape = [1, 11, 4368], **kwargs):
         super().__init__(*args, **kwargs)
 
         """
         Args:
             iou_threshold: float
                 IOU threshold for non-max supression, defaults to 0.7.
+            input_shape: default = [1, 3, 512, 416]
+            output_shape: default = [1, 11, 4368]
         """
 
         self.iou_threshold = iou_threshold
+        self.output_shape = output_shape
+        self.input_shape = input_shape
 
         #  Initialize TRT model
         self.runtime = trt.Runtime(TRT_LOGGER)
@@ -187,8 +191,8 @@ class Yolov8TrtDetectionModel(DetectionModel):
         model_inputs = self.model.get_inputs()
         model_output = self.model.get_outputs()
 
-        input_names = [model_inputs[i].name for i in range(len(model_inputs))]
-        output_names = [model_output[i].name for i in range(len(model_output))]
+        # input_names = [model_inputs[i].name for i in range(len(model_inputs))]
+        # output_names = [model_output[i].name for i in range(len(model_output))]
 
         input_shape = model_inputs[0].shape[2:]  # w, h
         image_shape = image.shape[:2]  # h, w
