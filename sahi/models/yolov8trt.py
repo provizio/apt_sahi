@@ -30,7 +30,7 @@ class HostDeviceMem(object):
         return self.__str__()
 
 class Yolov8TrtDetectionModel(DetectionModel):
-    def ___init__(self, *args, iou_threshold: float = 0.7, **kwargs):
+    def __init__(self, *args, iou_threshold: float = 0.7, **kwargs):
         super().__init__(*args, **kwargs)
 
         """
@@ -38,11 +38,14 @@ class Yolov8TrtDetectionModel(DetectionModel):
             iou_threshold: float
                 IOU threshold for non-max supression, defaults to 0.7.
         """
-        #  Initialize TRT model
 
+        self.iou_threshold = iou_threshold
+
+        #  Initialize TRT model
         self.runtime = trt.Runtime(TRT_LOGGER)
         self.engine = None
-        self.iou_threshold = iou_threshold
+
+        
 
     def check_dependencies(self) -> None:
         check_requirements(["tensorrt"])
