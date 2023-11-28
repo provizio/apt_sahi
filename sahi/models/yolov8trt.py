@@ -47,12 +47,12 @@ class Yolov8TrtDetectionModel(DetectionModel):
     def check_dependencies(self) -> None:
         check_requirements(["tensorrt"])
 
-    def load_engine(self, *args) -> None:
+    def load_model(self, *args) -> None:
         """Detection model is initialized and set to self.model.
         """
 
         try:
-            self.engine = self.load_engine(self.model_path)
+            self.engine = self.model_path
             self.context = self.engine.create_execution_context()
             self.inputs, self.outputs, self.bindings, self.stream = self.allocate_buffers()
             trt.init_libnvinfer_plugins(None, "")
