@@ -5,6 +5,7 @@ import cv2
 import numpy as np
 import torch
 import pycuda.driver as cuda
+import pycuda.autoinit
 
 import tensorrt as trt
 
