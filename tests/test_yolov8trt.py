@@ -21,9 +21,9 @@ class TestYolov8TRTDetectionModel(unittest.TestCase):
 
         #  Initialize TRT model
         self.runtime = trt.Runtime(TRT_LOGGER)
-        self.engine = self.load_engine(self.model_path)
-        self.context = self.engine.create_execution_context()
-        self.inputs, self.outputs, self.bindings, self.stream = self.allocate_buffers()
+        # self.engine = self.load_engine(self.model_path)
+        # self.context = self.engine.create_execution_context()
+        # self.inputs, self.outputs, self.bindings, self.stream = self.allocate_buffers()
 
     def test_load_model(self):
         from sahi.models.yolov8trt import Yolov8TrtDetectionModel

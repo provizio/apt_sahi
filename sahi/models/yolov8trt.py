@@ -38,9 +38,9 @@ class Yolov8TrtDetectionModel(DetectionModel):
         """
         #  Initialize TRT model
         self.runtime = trt.Runtime(TRT_LOGGER)
-        # self.engine = self.load_engine(self.model_path)
-        # self.context = self.engine.create_execution_context()
-        # self.inputs, self.outputs, self.bindings, self.stream = self.allocate_buffers()
+        self.engine = self.load_engine(self.model_path)
+        self.context = self.engine.create_execution_context()
+        self.inputs, self.outputs, self.bindings, self.stream = self.allocate_buffers()
         
         super().__init__(*args, **kwargs)
         self.iou_threshold = iou_threshold
