@@ -30,7 +30,7 @@ class HostDeviceMem(object):
         return self.__str__()
 
 class Yolov8TrtDetectionModel(DetectionModel):
-    def __init__(self, *args, iou_threshold: float = 0.7, **kwargs):
+    def ___init__(self, *args, iou_threshold: float = 0.7, **kwargs):
         super().__init__(*args, **kwargs)
 
         """
@@ -39,8 +39,9 @@ class Yolov8TrtDetectionModel(DetectionModel):
                 IOU threshold for non-max supression, defaults to 0.7.
         """
         #  Initialize TRT model
+
         self.runtime = trt.Runtime(TRT_LOGGER)
-        
+        self.engine = None
         self.iou_threshold = iou_threshold
 
     def check_dependencies(self) -> None:
@@ -54,11 +55,11 @@ class Yolov8TrtDetectionModel(DetectionModel):
             trt.init_libnvinfer_plugins(None, "")
             with open(self.model_path, 'rb') as f:
                 engine_data = f.read()
-            engine = self.runtime.deserialize_cuda_engine(engine_data)
+            self.engine = self.runtime.deserialize_cuda_engine(engine_data)
 
-            self.context = engine.create_execution_context()
+            self.context = self.engine.create_execution_context()
             self.inputs, self.outputs, self.bindings, self.stream = self.allocate_buffers()
-            self.set_model(engine)
+            self.set_model(self.engine)
 
         except Exception as e:
             raise TypeError("model_path is not a valid trt model path: ", e)
