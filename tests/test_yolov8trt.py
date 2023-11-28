@@ -60,7 +60,7 @@ class TestYolov8TRTDetectionModel(unittest.TestCase):
             iou_threshold=IOU_THRESHOLD,
             device=MODEL_DEVICE,
             category_mapping={"0": "something"},
-            load_at_init=False,
+            load_at_init=True,
             input_shape = [1, 3, 512, 416],
             output_shape = [1, 11, 4368]
         )
@@ -79,7 +79,7 @@ class TestYolov8TRTDetectionModel(unittest.TestCase):
             iou_threshold=IOU_THRESHOLD,
             device=MODEL_DEVICE,
             category_mapping={"0": "something"},
-            load_at_init=False,
+            load_at_init=True,
             image_size=IMAGE_SIZE,
             input_shape = [1, 3, 512, 416],
             output_shape = [1, 11, 4368]
