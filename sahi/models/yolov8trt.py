@@ -128,7 +128,7 @@ class Yolov8TrtDetectionModel(DetectionModel):
             image: np.ndarray
                 Input image with color channel order RGB.
         """
-        input_image = cv2.resize(image, input_shape)
+        input_image = cv2.resize(image, self.input_shape)
 
         input_image = input_image / 255.0
         input_image = input_image.transpose(2, 0, 1)
@@ -191,6 +191,10 @@ class Yolov8TrtDetectionModel(DetectionModel):
         # Prepare image
         image_tensor = self._preprocess_image(image, self.input_shape)
 
+        model_inputs = self.model.get_inputs()
+        input_shape = model_inputs[0].shape[2:]  # w, h
+        image_shape = image.shape[:2]  # h, w
+
         np.copyto(self.inputs.host, image_tensor)
 
         #  Copying input tensor to CUDA Memory
@@ -207,7 +211,7 @@ class Yolov8TrtDetectionModel(DetectionModel):
 
         # Post-process
         results = np.reshape(self.outputs.host, self.output_shape)
-        prediction_results = self._post_process(results, self.input_shape, image_shape)
+        prediction_results = self._post_process(results, input_shape, image_shape)
         self._original_predictions = results
 
     @property
