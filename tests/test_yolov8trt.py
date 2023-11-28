@@ -1,8 +1,5 @@
 import unittest
-import os
-import numpy as np
 import logging
-from torch import Tensor
 
 import cv2
 import tensorrt as trt
@@ -20,13 +17,6 @@ IMAGE_SIZE = 640
 
 
 class TestYolov8TRTDetectionModel(unittest.TestCase):
-    def setUp(self):
-
-        #  Initialize TRT model
-        self.runtime = trt.Runtime(TRT_LOGGER)
-        # self.engine = self.load_model(self.model_path)
-        # self.context = self.engine.create_execution_context()
-        # self.inputs, self.outputs, self.bindings, self.stream = self.allocate_buffers()
 
     def test_load_model(self):
         from sahi.models.yolov8trt import Yolov8TrtDetectionModel
@@ -52,10 +42,6 @@ class TestYolov8TRTDetectionModel(unittest.TestCase):
         from sahi.models.yolov8trt import Yolov8TrtDetectionModel
 
         download_yolov8_trt_model()
-
-        with open(Yolov8TRTTestConstants.YOLOV8N_TRT_MODEL_PATH, 'rb') as f:
-            engine_data = f.read()
-        yolo_model = self.runtime.deserialize_cuda_engine(engine_data)
 
         yolov8_trt_detection_model = Yolov8TrtDetectionModel(
             model_path=Yolov8TRTTestConstants.YOLOV8N_TRT_MODEL_PATH,
@@ -96,10 +82,8 @@ class TestYolov8TRTDetectionModel(unittest.TestCase):
         yolov8_trt_detection_model.perform_inference(image)
         original_predictions = yolov8_trt_detection_model.original_predictions
 
-        print(original_predictions)
-
         # Ensure there are predictions
-        assert original_predictions is type(Tensor)
+        assert original_predictions is not None
 
         
 
