@@ -211,7 +211,7 @@ class Yolov8TrtDetectionModel(DetectionModel):
         # Post-process
         results = np.reshape(self.outputs.host, self.output_shape)
         prediction_results = self._post_process(results, input_shape, image_shape)
-        self._original_predictions = results
+        self._original_predictions = prediction_results
 
     @property
     def category_names(self):
