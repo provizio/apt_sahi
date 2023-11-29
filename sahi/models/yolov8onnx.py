@@ -81,8 +81,8 @@ class Yolov8OnnxDetectionModel(DetectionModel):
         input_image = cv2.resize(image, input_shape)
 
         input_image = input_image / 255.0
-        input_image = input_image.transpose(2, 0, 1)
-        image_tensor = input_image[np.newaxis, :, :, :].astype(np.float32)
+        input_image = input_image.transpose(2, 1, 0)
+        image_tensor = input_image[np.newaxis, :, :, :].astype(np.float16)
 
         return image_tensor
 
