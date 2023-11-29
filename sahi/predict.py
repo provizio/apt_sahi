@@ -195,6 +195,7 @@ def get_sliced_prediction(
     durations_in_seconds = dict()
 
     # currently only 1 batch supported
+    image=(image*255).astype(np.uint8)
     num_batch = 1
 
     # create slices from full image
