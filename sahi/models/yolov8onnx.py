@@ -82,7 +82,7 @@ class Yolov8OnnxDetectionModel(DetectionModel):
 
         input_image = input_image / 255.0
         input_image = input_image.transpose(2, 0, 1)
-        image_tensor = input_image[np.newaxis, :, :, :].astype(np.float32)
+        image_tensor = input_image[np.newaxis, :, :, :].astype(np.float16)
 
         return image_tensor
 
@@ -145,7 +145,7 @@ class Yolov8OnnxDetectionModel(DetectionModel):
         input_names = [model_inputs[i].name for i in range(len(model_inputs))]
         output_names = [model_output[i].name for i in range(len(model_output))]
 
-        input_shape = model_inputs[0].shape[2:]  # w, h
+        input_shape = model_inputs[0].shape[2:][::-1]  # w, h
         image_shape = image.shape[:2]  # h, w
 
         # Prepare image
