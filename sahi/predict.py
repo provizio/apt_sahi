@@ -228,7 +228,6 @@ def get_sliced_prediction(
         class_agnostic=postprocess_class_agnostic,
     )
 
-    gsp_start = time.perf_counter()
 
     # create prediction input
     num_group = int(num_slices / num_batch)
@@ -253,7 +252,6 @@ def get_sliced_prediction(
                 slice_image_result.original_image_width,
             ],
         )
-        logger.info(f"Per slice prediction time: {(time.perf_counter() - gsp_start)*1000:2f}")
 
         # convert sliced predictions to full predictions
         for object_prediction in prediction_result.object_prediction_list:
