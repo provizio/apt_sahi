@@ -92,8 +92,7 @@ class TestYolov8OnnxDetectionModel(unittest.TestCase):
         for ind, point in enumerate(predicted_bbox[:4]):
             assert point < desired_bbox[ind] + margin and point > desired_bbox[ind] - margin
 
-        for box in boxes[0]:
-            self.assertGreaterEqual(predicted_bbox[4], CONFIDENCE_THRESHOLD)
+        self.assertGreaterEqual(predicted_bbox[4], CONFIDENCE_THRESHOLD)
 
 
 if __name__ == "__main__":
