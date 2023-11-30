@@ -61,6 +61,8 @@ class Yolov8TrtDetectionModel(DetectionModel):
 
         try:
             # assert os.path.exists(self.model_path)
+
+            print(self.model_path)
             
             trt.init_libnvinfer_plugins(None, "")  
 
