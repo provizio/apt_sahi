@@ -68,7 +68,8 @@ class Yolov8TrtDetectionModel(DetectionModel):
             with open(self.model_path, 'rb') as f:
                 engine_data = f.read()
             engine = self.runtime.deserialize_cuda_engine(engine_data)
-            self.set_model(engine)
+            
+            self.set_model(self.model_path)
             return engine
         
         except Exception as e:
