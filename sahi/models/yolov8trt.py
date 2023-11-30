@@ -51,7 +51,8 @@ class Yolov8TrtDetectionModel(DetectionModel):
 
         #  Initialize TRT model
         self.runtime = trt.Runtime(TRT_LOGGER)
-        self.engine = self.load_model()
+        with self.runtime:
+            self.engine = self.load_model()
         self.context = self.engine.create_execution_context()
         self.inputs, self.outputs, self.bindings, self.stream = self.allocate_buffers()
         
