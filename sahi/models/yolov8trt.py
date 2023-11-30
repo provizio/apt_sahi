@@ -18,8 +18,6 @@ from sahi.utils.compatibility import fix_full_shape_list, fix_shift_amount_list
 from sahi.utils.import_utils import check_requirements
 from sahi.utils.yolov8trt import non_max_supression, xywh2xyxy
 
-TRT_LOGGER = trt.Logger()
-
 class HostDeviceMem(object):
     def __init__(self, host_mem, device_mem):
         self.host = host_mem
@@ -50,9 +48,9 @@ class Yolov8TrtDetectionModel(DetectionModel):
         self.input_shape = input_shape
 
         #  Initialize TRT model
-        self.runtime = trt.Runtime(TRT_LOGGER)
-        with self.runtime:
-            self.engine = self.load_model()
+        self.logger = trt.Logger()
+        self.runtime = trt.Runtime(self.logger)
+        self.engine = self.load_model(self.runtime)
         self.context = self.engine.create_execution_context()
         self.inputs, self.outputs, self.bindings, self.stream = self.allocate_buffers()
         
@@ -60,23 +58,19 @@ class Yolov8TrtDetectionModel(DetectionModel):
     def check_dependencies(self) -> None:
         check_requirements(["tensorrt"])
 
-    def load_model(self, *args) -> None:
+    @staticmethod
+    def load_model(self, trt_runtime) -> None:
         """Detection model is initialized and set to self.model.
         """
 
         try:
-            assert os.path.exists(self.model_path)
+            # assert os.path.exists(self.model_path)
             
             trt.init_libnvinfer_plugins(None, "")  
 
-            print("model path: " + self.model_path) 
-
             with open(self.model_path, 'rb') as f:
                 engine_data = f.read()
-            engine = self.runtime.deserialize_cuda_engine(engine_data)
-
-            print("Engine: " + engine)
-
+            engine = trt_runtime.deserialize_cuda_engine(engine_data)
             self.set_model(engine)
             return engine
         
