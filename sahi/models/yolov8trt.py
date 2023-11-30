@@ -5,6 +5,7 @@ import cv2
 import numpy as np
 import torch
 import pycuda.driver as cuda
+import os
 import pycuda.autoinit
 
 import tensorrt as trt
@@ -50,7 +51,7 @@ class Yolov8TrtDetectionModel(DetectionModel):
 
         #  Initialize TRT model
         self.runtime = trt.Runtime(TRT_LOGGER)
-        self.engine = self.load_model(self.model_path)
+        self.engine = self.load_model()
         self.context = self.engine.create_execution_context()
         self.inputs, self.outputs, self.bindings, self.stream = self.allocate_buffers()
         
@@ -63,16 +64,18 @@ class Yolov8TrtDetectionModel(DetectionModel):
         """
 
         try:
+            assert os.path.exists(self.model_path)
+            
             trt.init_libnvinfer_plugins(None, "")  
 
-            print(self.model_path) 
-            print(type(self.model_path))
+            print("model path: " + self.model_path) 
+            print("type model path: " + type(self.model_path))
 
             with open(self.model_path, 'rb') as f:
                 engine_data = f.read()
             engine = self.runtime.deserialize_cuda_engine(engine_data)
 
-            print(type(engine))
+            print("Engine: " + engine)
 
             self.set_model(engine)
             return engine
