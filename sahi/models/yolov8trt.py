@@ -31,7 +31,7 @@ class HostDeviceMem(object):
 
 class Yolov8TrtDetectionModel(DetectionModel):
     def __init__(self, *args, iou_threshold: float = 0.7, input_shape = [1, 3, 512, 416], output_shape = [1, 11, 4368], **kwargs):
-        #super().__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
 
         """
         Args:
@@ -44,6 +44,7 @@ class Yolov8TrtDetectionModel(DetectionModel):
         self.iou_threshold = iou_threshold
         self.output_shape = output_shape
         self.input_shape = input_shape
+
 
         #  Initialize TRT model
         self.logger = trt.Logger()
