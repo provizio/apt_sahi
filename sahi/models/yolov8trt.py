@@ -2,6 +2,7 @@ import logging
 from typing import Any, List, Optional, Tuple
 
 import cv2
+from .utils.logger import logger
 import numpy as np
 import torch
 import pycuda.driver as cuda
