@@ -6,7 +6,6 @@ import cv2
 import numpy as np
 import torch
 import pycuda.driver as cuda
-import os
 import pycuda.autoinit
 
 import tensorrt as trt
@@ -65,8 +64,6 @@ class Yolov8TrtDetectionModel(DetectionModel):
         """
 
         try:
-            # assert os.path.exists(self.model_path)
-
             print(self.model_path)
             
             trt.init_libnvinfer_plugins(None, "")  
@@ -180,7 +177,6 @@ class Yolov8TrtDetectionModel(DetectionModel):
             prediction_result.append([bbox[0], bbox[1], bbox[2], bbox[3], score, cls_id])
 
         prediction_result = [torch.tensor(prediction_result)]
-        # prediction_result = [prediction_result]
 
         return prediction_result
 
