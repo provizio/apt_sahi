@@ -2,7 +2,7 @@ import logging
 from typing import Any, List, Optional, Tuple
 
 import cv2
-from .utils.logger import logger
+
 import numpy as np
 import torch
 import pycuda.driver as cuda
@@ -16,6 +16,8 @@ from sahi.prediction import ObjectPrediction
 from sahi.utils.compatibility import fix_full_shape_list, fix_shift_amount_list
 from sahi.utils.import_utils import check_requirements
 from sahi.utils.yolov8trt import non_max_supression, xywh2xyxy
+
+logger = logging.Logger(__name__)
 
 class HostDeviceMem(object):
     def __init__(self, host_mem, device_mem):
