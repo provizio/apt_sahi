@@ -64,7 +64,7 @@ class DetectionModel:
             if model:
                 self.set_model(model)
             else:
-                self.load_model()
+                self.load_model(model_path)
 
     def check_dependencies(self) -> None:
         """
