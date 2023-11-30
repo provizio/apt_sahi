@@ -69,7 +69,6 @@ class Yolov8TrtDetectionModel(DetectionModel):
             trt.init_libnvinfer_plugins(None, "")  
 
             print("model path: " + self.model_path) 
-            print("type model path: " + type(self.model_path))
 
             with open(self.model_path, 'rb') as f:
                 engine_data = f.read()
