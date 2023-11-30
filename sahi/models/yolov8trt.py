@@ -10,8 +10,6 @@ import pycuda.autoinit
 
 import tensorrt as trt
 
-logger = logging.getLogger(__name__)
-
 from sahi.models.base import DetectionModel
 from sahi.prediction import ObjectPrediction
 from sahi.utils.compatibility import fix_full_shape_list, fix_shift_amount_list
@@ -50,10 +48,9 @@ class Yolov8TrtDetectionModel(DetectionModel):
         #  Initialize TRT model
         self.logger = trt.Logger()
         self.runtime = trt.Runtime(self.logger)
-        self.engine = self.load_model(self, self.runtime)
-        self.context = self.engine.create_execution_context()
+        self.engine = self.load_model(trt_runtime=self.runtime)
         self.inputs, self.outputs, self.bindings, self.stream = self.allocate_buffers()
-        
+        self.context = self.engine.create_execution_context()
 
     def check_dependencies(self) -> None:
         check_requirements(["tensorrt"])
