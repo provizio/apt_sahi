@@ -53,8 +53,9 @@ class Yolov8TrtDetectionModel(DetectionModel):
         self.logger = trt.Logger()
         self.runtime = trt.Runtime(self.logger)
         self.engine = self.load_model(trt_runtime=self.runtime)
-        self.inputs, self.outputs, self.bindings, self.stream = self.allocate_buffers()
         self.context = self.engine.create_execution_context()
+        self.inputs, self.outputs, self.bindings, self.stream = self.allocate_buffers()
+
 
     def check_dependencies(self) -> None:
         check_requirements(["tensorrt"])
