@@ -59,7 +59,7 @@ class DetectionModel:
 
         self.set_device()
 
-        not_trt = self.model_path[-3] != "trt"
+        not_trt = self.model_path[-3:] != "trt"
         print(not_trt)
 
         # automatically load model if load_at_init is True
