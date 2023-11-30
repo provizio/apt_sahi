@@ -58,7 +58,6 @@ class Yolov8TrtDetectionModel(DetectionModel):
     def check_dependencies(self) -> None:
         check_requirements(["tensorrt"])
 
-    @staticmethod
     def load_model(self, trt_runtime) -> None:
         """Detection model is initialized and set to self.model.
         """
