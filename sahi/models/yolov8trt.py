@@ -63,13 +63,18 @@ class Yolov8TrtDetectionModel(DetectionModel):
         """
 
         try:
-            trt.init_libnvinfer_plugins(None, "")   
+            trt.init_libnvinfer_plugins(None, "")  
+
+            print(self.model_path) 
+            print(type(self.model_path))
 
             with open(self.model_path, 'rb') as f:
                 engine_data = f.read()
             engine = self.runtime.deserialize_cuda_engine(engine_data)
-            
-            self.set_model(self.model_path)
+
+            print(type(engine))
+
+            self.set_model(engine)
             return engine
         
         except Exception as e:
