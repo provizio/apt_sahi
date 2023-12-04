@@ -21,7 +21,6 @@ def get_package_info(package_name: str, verbose: bool = True):
                 _version = importlib.import_module(package_name).__version__
             except AttributeError:
                 _version = "unknown"
-        if verbose:
     else:
         _version = "N/A"
 
