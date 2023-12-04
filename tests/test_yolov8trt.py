@@ -1,10 +1,8 @@
 import unittest
-import logging
 
 import cv2
 import tensorrt as trt
 
-logger = logging.getLogger(__name__)
 TRT_LOGGER = trt.Logger()
 
 from sahi.utils.cv import read_image

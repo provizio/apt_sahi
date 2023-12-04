@@ -19,11 +19,7 @@ from sahi.utils.cv import IMAGE_EXTENSIONS_LOSSLESS, IMAGE_EXTENSIONS_LOSSY, rea
 from sahi.utils.file import load_json, save_json
 
 logger = logging.getLogger(__name__)
-logging.basicConfig(
-    format="%(asctime)s - %(levelname)s - %(name)s -   %(message)s",
-    datefmt="%m/%d/%Y %H:%M:%S",
-    level=os.environ.get("LOGLEVEL", "INFO").upper(),
-)
+
 
 MAX_WORKERS = 20
 

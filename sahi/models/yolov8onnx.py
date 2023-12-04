@@ -1,14 +1,11 @@
 # OBSS SAHI Tool
 # Code written by Karl-Joan Alesma and Michael García, 2023.
 
-import logging
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, List, Optional, Tuple
 
 import cv2
 import numpy as np
 import torch
-
-logger = logging.getLogger(__name__)
 
 from sahi.models.base import DetectionModel
 from sahi.prediction import ObjectPrediction
@@ -18,11 +15,15 @@ from sahi.utils.yolov8onnx import non_max_supression, xywh2xyxy
 
 
 class Yolov8OnnxDetectionModel(DetectionModel):
-    def __init__(self, *args, iou_threshold: float = 0.7, **kwargs):
+    def __init__(
+        self, *args, iou_threshold: float = 0.7, input_shape=[1, 3, 512, 416], output_shape=[1, 10, 4368], **kwargs
+    ):
         """
         Args:
             iou_threshold: float
                 IOU threshold for non-max supression, defaults to 0.7.
+                
+            input and output shape are redundant parameters to avoid implementing logic between TensorRT and ONNX versions
         """
         super().__init__(*args, **kwargs)
         self.iou_threshold = iou_threshold
@@ -231,7 +232,6 @@ class Yolov8OnnxDetectionModel(DetectionModel):
 
                 # ignore invalid predictions
                 if not (bbox[0] < bbox[2]) or not (bbox[1] < bbox[3]):
-                    logger.warning(f"ignoring invalid prediction with bbox: {bbox}")
                     continue
 
                 object_prediction = ObjectPrediction(

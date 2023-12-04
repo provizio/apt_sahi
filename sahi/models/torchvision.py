@@ -1,7 +1,6 @@
 # OBSS SAHI Tool
 # Code written by Fatih C Akyon and Kadir Nar, 2021.
 
-import logging
 from typing import Any, Dict, List, Optional
 
 import numpy as np
@@ -10,7 +9,6 @@ from sahi.models.base import DetectionModel
 from sahi.prediction import ObjectPrediction
 from sahi.utils.import_utils import check_requirements
 
-logger = logging.getLogger(__name__)
 
 
 class TorchVisionDetectionModel(DetectionModel):
@@ -40,12 +38,9 @@ class TorchVisionDetectionModel(DetectionModel):
         # complete params if not provided in config
         if not model_name:
             model_name = "fasterrcnn_resnet50_fpn"
-            logger.warning(f"model_name not provided in config, using default model_type: {model_name}'")
         if num_classes is None:
-            logger.warning("num_classes not provided in config, using default num_classes: 91")
             num_classes = 91
         if self.model_path is None:
-            logger.warning("model_path not provided in config, using pretrained weights and default num_classes: 91.")
             pretrained = True
             num_classes = 91
         else:
