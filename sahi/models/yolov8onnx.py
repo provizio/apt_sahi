@@ -16,7 +16,9 @@ from sahi.utils.yolov8onnx import non_max_supression, xywh2xyxy
 
 
 class Yolov8OnnxDetectionModel(DetectionModel):
-    def __init__(self, *args, iou_threshold: float = 0.7, **kwargs):
+    def __init__(
+        self, *args, iou_threshold: float = 0.7, input_shape=[1, 3, 512, 416], output_shape=[1, 10, 4368], **kwargs
+    ):
         """
         Args:
             iou_threshold: float
