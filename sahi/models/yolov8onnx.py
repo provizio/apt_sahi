@@ -1,8 +1,7 @@
 # OBSS SAHI Tool
 # Code written by Karl-Joan Alesma and Michael García, 2023.
 
-import logging
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, List, Optional, Tuple
 
 import cv2
 import numpy as np
@@ -23,6 +22,8 @@ class Yolov8OnnxDetectionModel(DetectionModel):
         Args:
             iou_threshold: float
                 IOU threshold for non-max supression, defaults to 0.7.
+                
+            input and output shape are redundant parameters to avoid implementing logic between TensorRT and ONNX versions
         """
         super().__init__(*args, **kwargs)
         self.iou_threshold = iou_threshold
