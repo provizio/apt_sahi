@@ -61,9 +61,7 @@ class Yolov8TrtDetectionModel(DetectionModel):
         """Detection model is initialized and set to self.model.
         """
 
-        try:
-            print(self.model_path)
-            
+        try:            
             trt.init_libnvinfer_plugins(None, "")  
 
             with open(self.model_path, 'rb') as f:
