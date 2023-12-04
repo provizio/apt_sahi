@@ -1,4 +1,3 @@
-import logging
 from typing import Any, List, Optional, Tuple
 
 import cv2
@@ -16,7 +15,6 @@ from sahi.utils.compatibility import fix_full_shape_list, fix_shift_amount_list
 from sahi.utils.import_utils import check_requirements
 from sahi.utils.yolov8trt import non_max_supression, xywh2xyxy
 
-logger = logging.Logger(__name__)
 
 class HostDeviceMem(object):
     def __init__(self, host_mem, device_mem):
@@ -93,7 +91,6 @@ class Yolov8TrtDetectionModel(DetectionModel):
             raise TypeError("Category mapping values are required")
     
     def allocate_buffers(self):
-        logger.debug(" Allocating buffers ...")
         inputs = None
         outputs = None
         bindings = []
@@ -106,9 +103,7 @@ class Yolov8TrtDetectionModel(DetectionModel):
         for binding in self.engine:
             binding_idx = self.engine.get_binding_index(binding)
             size = trt.volume(self.context.get_binding_shape(binding_idx))
-            logger.debug(f"Get binding shape {self.context.get_binding_shape(binding_idx)}")
             dtype = trt.nptype(self.engine.get_binding_dtype(binding))
-            logger.debug(f"Dtype : {dtype}")
 
             if self.engine.binding_is_input(binding):
                 host_mem = np.zeros(self.input_shape, np.float16)
@@ -289,7 +284,6 @@ class Yolov8TrtDetectionModel(DetectionModel):
 
                 # ignore invalid predictions
                 if not (bbox[0] < bbox[2]) or not (bbox[1] < bbox[3]):
-                    logger.warning(f"ignoring invalid prediction with bbox: {bbox}")
                     continue
 
                 object_prediction = ObjectPrediction(
