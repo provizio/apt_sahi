@@ -1,7 +1,6 @@
 # OBSS SAHI Tool
 # Code written by Fatih C Akyon, 2020.
 
-import logging
 from typing import Any, Dict, List, Optional
 
 import numpy as np
@@ -11,7 +10,6 @@ from sahi.prediction import ObjectPrediction
 from sahi.utils.compatibility import fix_full_shape_list, fix_shift_amount_list
 from sahi.utils.import_utils import check_package_minimum_version, check_requirements
 
-logger = logging.getLogger(__name__)
 
 
 class Yolov5DetectionModel(DetectionModel):
@@ -150,7 +148,6 @@ class Yolov5DetectionModel(DetectionModel):
 
                 # ignore invalid predictions
                 if not (bbox[0] < bbox[2]) or not (bbox[1] < bbox[3]):
-                    logger.warning(f"ignoring invalid prediction with bbox: {bbox}")
                     continue
 
                 object_prediction = ObjectPrediction(

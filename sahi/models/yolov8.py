@@ -1,12 +1,10 @@
 # OBSS SAHI Tool
 # Code written by AnNT, 2023.
 
-import logging
 from typing import Any, Dict, List, Optional
 
 import numpy as np
 
-logger = logging.getLogger(__name__)
 
 from sahi.models.base import DetectionModel
 from sahi.prediction import ObjectPrediction
@@ -145,7 +143,6 @@ class Yolov8DetectionModel(DetectionModel):
 
                 # ignore invalid predictions
                 if not (bbox[0] < bbox[2]) or not (bbox[1] < bbox[3]):
-                    logger.warning(f"ignoring invalid prediction with bbox: {bbox}")
                     continue
 
                 object_prediction = ObjectPrediction(

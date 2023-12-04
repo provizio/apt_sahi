@@ -3,7 +3,6 @@
 # Modified by Sinan O Altinuc, 2020.
 
 import copy
-import logging
 import os
 import threading
 from collections import Counter, defaultdict
@@ -21,12 +20,7 @@ from tqdm import tqdm
 from sahi.utils.file import is_colab, load_json, save_json
 from sahi.utils.shapely import ShapelyAnnotation, box, get_shapely_multipolygon
 
-logger = logging.getLogger(__name__)
-logging.basicConfig(
-    format="%(asctime)s - %(levelname)s - %(name)s -   %(message)s",
-    datefmt="%m/%d/%Y %H:%M:%S",
-    level=os.environ.get("LOGLEVEL", "INFO").upper(),
-)
+
 
 
 class CocoCategory:
@@ -132,9 +126,7 @@ class CocoAnnotation:
         """
         if annotation_dict.__contains__("segmentation") and not isinstance(annotation_dict["segmentation"], list):
             has_rle_segmentation = True
-            logger.warning(
-                f"Segmentation annotation for id {annotation_dict['id']} is skipped since RLE segmentation format is not supported."
-            )
+         
         else:
             has_rle_segmentation = False
 
@@ -1600,10 +1592,8 @@ def export_yolov5_images_and_txts_from_coco_object(
         disable_symlink: bool
             If True, symlinks are not created. Instead images are copied.
     """
-    logger.info("generating image symlinks and annotation files for yolov5..."),
     # symlink is not supported in colab
     if is_colab() and not disable_symlink:
-        logger.warning("symlink is not supported in colab, disabling it...")
         disable_symlink = True
     if mp:
         with Pool(processes=48) as pool:

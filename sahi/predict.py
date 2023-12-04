@@ -1,7 +1,6 @@
 # OBSS SAHI Tool
 # Code written by Fatih C Akyon, 2020.
 
-import logging
 import os
 import time
 from typing import List, Optional
@@ -51,7 +50,6 @@ POSTPROCESS_NAME_TO_CLASS = {
 LOW_MODEL_CONFIDENCE = 0.1
 
 
-logger = logging.getLogger(__name__)
 
 
 def get_prediction(
@@ -464,9 +462,6 @@ def predict(
 
     # auto postprocess type
     if not force_postprocess_type and model_confidence_threshold < LOW_MODEL_CONFIDENCE and postprocess_type != "NMS":
-        logger.warning(
-            f"Switching postprocess type/metric to NMS/IOU since confidence threshold is low ({model_confidence_threshold})."
-        )
         postprocess_type = "NMS"
         postprocess_match_metric = "IOU"
 

@@ -1,15 +1,8 @@
 import importlib.util
-import logging
 import os
 
 # adapted from https://github.com/huggingface/transformers/blob/main/src/transformers/utils/import_utils.py
 
-logger = logging.getLogger(__name__)
-logging.basicConfig(
-    format="%(asctime)s - %(levelname)s - %(name)s -   %(message)s",
-    datefmt="%m/%d/%Y %H:%M:%S",
-    level=os.environ.get("LOGLEVEL", "INFO").upper(),
-)
 
 
 def get_package_info(package_name: str, verbose: bool = True):
@@ -29,7 +22,6 @@ def get_package_info(package_name: str, verbose: bool = True):
             except AttributeError:
                 _version = "unknown"
         if verbose:
-            logger.info(f"{package_name} version {_version} is available.")
     else:
         _version = "N/A"
 
@@ -75,11 +67,7 @@ def check_package_minimum_version(package_name: str, minimum_version: str, verbo
 
     _is_available, _version = get_package_info(package_name, verbose=verbose)
     if _is_available:
-        if _version == "unknown":
-            logger.warning(
-                f"Could not determine version of {package_name}. Assuming version {minimum_version} is compatible."
-            )
-        else:
+        if _version != "unknown":
             if version.parse(_version) < version.parse(minimum_version):
                 return False
     return True
@@ -93,11 +81,8 @@ def ensure_package_minimum_version(package_name: str, minimum_version: str, verb
 
     _is_available, _version = get_package_info(package_name, verbose=verbose)
     if _is_available:
-        if _version == "unknown":
-            logger.warning(
-                f"Could not determine version of {package_name}. Assuming version {minimum_version} is compatible."
-            )
-        else:
+        if _version != "unknown":
+   
             if version.parse(_version) < version.parse(minimum_version):
                 raise ImportError(
                     f"Please upgrade {package_name} to version {minimum_version} or higher to use this module."

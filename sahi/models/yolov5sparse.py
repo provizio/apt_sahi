@@ -3,7 +3,6 @@
 # Using YOLOv5 sparse models from Neural Magic using DeepSparse
 # https://neuralmagic.com/deepsparse
 
-import logging
 from typing import Any, Dict, List, Optional
 
 import numpy as np
@@ -13,7 +12,6 @@ from sahi.prediction import ObjectPrediction
 from sahi.utils.compatibility import fix_full_shape_list, fix_shift_amount_list
 from sahi.utils.import_utils import check_package_minimum_version, check_requirements
 
-logger = logging.getLogger(__name__)
 
 
 class Yolov5SparseDetectionModel(DetectionModel):
@@ -202,7 +200,6 @@ class Yolov5SparseDetectionModel(DetectionModel):
 
                 # ignore invalid predictions
                 if not (bbox[0] < bbox[2]) or not (bbox[1] < bbox[3]):
-                    logger.warning(f"ignoring invalid prediction with bbox: {bbox}")
                     continue
 
                 object_prediction = ObjectPrediction(
