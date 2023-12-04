@@ -2,6 +2,7 @@
 # Code written by Fatih C Akyon, 2020.
 
 import concurrent.futures
+import logging
 import os
 import time
 from pathlib import Path
@@ -17,12 +18,8 @@ from sahi.utils.coco import Coco, CocoAnnotation, CocoImage, create_coco_dict
 from sahi.utils.cv import IMAGE_EXTENSIONS_LOSSLESS, IMAGE_EXTENSIONS_LOSSY, read_image_as_pil
 from sahi.utils.file import load_json, save_json
 
-logger = logging.getLogger("RoC")
-logging.basicConfig(
-    format="%(asctime)s - %(levelname)s - %(name)s -   %(message)s",
-    datefmt="%m/%d/%Y %H:%M:%S",
-    level=os.environ.get("LOGLEVEL", "INFO").upper(),
-)
+logger = logging.getLogger(__name__)
+
 
 MAX_WORKERS = 20
 
