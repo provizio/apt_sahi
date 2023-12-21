@@ -187,7 +187,7 @@ class Yolov8TrtDetectionModel(DetectionModel):
 
         # Prepare image
         input_shape = self.input_shape[2:][::-1]  # w, h
-        image_shape = self.input_shape[:2]  # h, w
+        image_shape = image.shape[:2]  # h, w
         image_tensor = self._preprocess_image(image, input_shape)
 
         np.copyto(self.inputs.host, image_tensor)
