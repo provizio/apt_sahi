@@ -186,8 +186,8 @@ class Yolov8TrtDetectionModel(DetectionModel):
             raise ValueError("Model is not loaded, load it by calling .load_model()")
 
         # Prepare image
-        input_shape = model_inputs[0].shape[2:][::-1]  # w, h
-        image_shape = image.shape[:2]  # h, w
+        input_shape = self.input_shape[2:][::-1]  # w, h
+        image_shape = self.input_shape[:2]  # h, w
         image_tensor = self._preprocess_image(image, input_shape)
 
         np.copyto(self.inputs.host, image_tensor)
